@@ -2,7 +2,7 @@
 
 (defn all? [coll] (every? identity coll))
 
-(defn validate-all [& {:keys [username password email update]}]
+(defn validate-all [{:keys [username password email update]}]
   (let [regexp {:user #"^[a-zA-Z0-9_]{3,12}$"
                 :email #"^[^@]{1,64}@[^@]{1,255}$"
                 :update #"^.{3,90}$"}]
