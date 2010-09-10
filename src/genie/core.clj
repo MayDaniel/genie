@@ -1,22 +1,17 @@
 (ns genie.core
-  (:use [genie
-         [constants :only [responses]]
-         [mail :only [send-validation]]]
-        [hiccup
-         [core :only [html]]
-         [page-helpers :only [link-to]]])
+  (:use [genie [constants :only [responses]] [mail :only [send-validation]]]
+        [hiccup [core :only [html]] [page-helpers :only [link-to]]])
   (:require [genie [db :as db]]))
-
-(defn all? [coll] (every? identity coll))
 
 (defn validate-all [{:keys [username password email update]}]
   (let [regexp {:user #"^[a-zA-Z0-9_]{3,12}$"
                 :email #"^[^@]{1,64}@[^@]{1,255}$"
                 :update #"^.{3,90}$"}]
     (letfn [(re-check [[key coll]] (map #(if % (re-find (regexp key) % true)) coll))]
-      (all? (flatten (map re-check {:user [username password]
-                                    :email [email]
-                                    :update [update]}))))))
+      (->> {:user [username password] :email [email] :update [update]}
+           (map re-check)
+           (flatten)
+           (every? identity)))))
 
 (defn register [{:keys [username password email] :as user}]
   (responses
