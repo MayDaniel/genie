@@ -29,15 +29,14 @@
          :else :login-success)))
 
 (defn render-links [{:keys [in-as]}]
-  (letfn [(links-to [coll] (html (map (fn [[link name]] (link-to link name)))))]
-    (links-to
-     (merge {"/" "Home"
-             "/users" "Users"
-             "/tags" "Tags"
-             "/search" "Search"}      
-            (if-let [message-count (count (:messages (fetch-user in-as)))]
-              {"/messages" (str "Messages" "(" message-count ")")
-               (str "/users/" in-as "/edit") "Settings"
-               "/logout" "Log out"}                       
-              {"/login" "Log in"
-               "/register" "Register"})))))
+  (map (fn [[link name]] (link-to link name))
+       (merge {"/" "Home"
+               "/users" "Users"
+               "/tags" "Tags"
+               "/search" "Search"}      
+              (if-let [message-count (count (:messages (fetch-user in-as)))]
+                {"/messages" (str "Messages" "(" message-count ")")
+                 (str "/users/" in-as "/edit") "Settings"
+                 "/logout" "Log out"}                       
+                {"/login" "Log in"
+                 "/register" "Register"}))))
