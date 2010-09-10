@@ -26,7 +26,7 @@
    (cond (not (validated? username)) :not-validated
          (not (user-exists? username)) :user-not-found
          (not= password (:password (fetch-user username))) :incorrect-password
-         :else :success)))
+         :else :login-success)))
 
 (defn render-links [{:keys [in-as]}]
   (letfn [(links-to [coll] (html (map (fn [[link name]] (link-to link name)))))]
