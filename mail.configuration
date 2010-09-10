@@ -1,4 +1,5 @@
 {:username "foo@bar.baz"
  :password "example"
  :ssl? true
- :port 1111}
+ :port 1111
+ :host}
