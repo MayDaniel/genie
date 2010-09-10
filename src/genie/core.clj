@@ -40,3 +40,5 @@
                  "/logout" "Log out"}
                 {"/login" "Log in"
                  "/register" "Register"}))))
+
+(defmacro make-page [session title & body])
