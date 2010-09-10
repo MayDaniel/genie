@@ -7,11 +7,11 @@
 (defn mail-credentials []
   (set/rename-keys (store/in "mail.configuration")
                    {:username :user
-                    :password pass
+                    :password :pass
                     :ssl? :ssl}))
 
 (defn send-message [email subject body]
-  (apply send-msg
+  (apply mail/send-msg
          :to email :subject subject :body body
          (flatten (vec (mail-credentials)))))
 

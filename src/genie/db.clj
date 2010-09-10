@@ -4,7 +4,7 @@
 (db/mongo! :db "Genie")
 
 (defn fetch-user [username]
-  (dissoc :id (db/fetch-one :users :where {:username username})))
+  (db/fetch-one :users :where {:username username}))
 
 (defn user-exists? [username]
   (boolean (fetch-user username)))
