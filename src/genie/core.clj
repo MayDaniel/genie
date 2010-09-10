@@ -23,7 +23,7 @@
 
 (defn login [{:keys [username password]}]
   (responses
-   (cond (not (db/validated? username)) :not-validated
+   (cond (not (db/validated? username)) :unvalidated
          (not (db/user-exists? username)) :user-not-found
          (not= password (:password (db/fetch-user username))) :incorrect-password
          :else :login-success)))
@@ -40,5 +40,3 @@
                  "/logout" "Log out"}
                 {"/login" "Log in"
                  "/register" "Register"}))))
-
-(defmacro make-page [session title & body])
