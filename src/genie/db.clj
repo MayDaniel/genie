@@ -9,14 +9,12 @@
   (boolean (fetch-user username)))
 
 (defn add-user! [{:keys [username password email]}]
-  (when-not (user-exists? username)
     (insert! :users {:username username
                      :password password
                      :email email
                      :validated? false
-                     ;;:joined
-                     ;;:updates
-                     ;;:messages})))
+                     ;; :joined :updates :messages
+                     }))
 
 (defn update-user! [username f & args]
   (let [user (fetch-user username)]
