@@ -2,4 +2,4 @@
  :password "example"
  :ssl? true
  :port 1111
- :host}
+ :host "smtp.foo.bar"}
