@@ -53,7 +53,7 @@
        (make-page (str ~name) ~@body))))
 
 (defmacro defpage [name & args]
-  {:arglists '([name title argseq? & body])}
+  {:arglists '([name title? argseq? & body])}
   (let [first (fn [] (first args))
         title (if (string? (first)) (first) (str name))
         body (if (string? (first)) (rest args) args)
