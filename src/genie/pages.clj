@@ -18,7 +18,6 @@
   (when-let [response (:response session)]
     [:response (responses response)]))
 
-;; add check-response within make-page (this should call (responses response))
 (defmacro make-page [title & body]
   `(html (:html4 doctype)
          [:head [:title ~title]
