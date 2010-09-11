@@ -56,7 +56,7 @@
      :body (redirect "/")}))
 
 (defpage not-found "Invalid URL"
-  [:img {:src "/images/not-found.png"}])
+  #_[:img {:src "/images/not-found.png"}] "Page not found.")
 
 (defn not-found-handler [{session :session}]
   {:status 200
