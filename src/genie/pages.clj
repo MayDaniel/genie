@@ -1,5 +1,6 @@
 (ns genie.pages
-  (:use [hiccup.core :only [html]]
+  (:use [genie.constants :only [responses]]
+        [hiccup.core :only [html]]
         [hiccup.page-helpers :only [doctype link-to include-css include-js]]))
 
 (def links {:base {"/" "Home", "/users" "Users", "/tags" "Tags", "/search" "Search"}
@@ -13,12 +14,18 @@
 (defn redirect [url]
   (html [:meta {:http-equiv "Refresh" :content (str "0;url=" url)}]))
 
+(defn check-response [session]
+  (when-let [response (:response session)]
+    [:response (responses response)]))
+
+;; add check-response within make-page (this should call (responses response))
 (defmacro make-page [title & body]
   `(html (:html4 doctype)
          [:head [:title ~title]
           (include-css "/css/genie.css")
           (include-js "/javascript/genie.js")]
-         (render-links ~'session) ~@body))
+         (render-links ~'session)
+         (check-response ~'session) ~@body))
 
 (defmacro defpage [name & args]
   {:arglists '([name title? argseq? & body])}

@@ -13,7 +13,7 @@
            (flatten)
            (every? identity)))))
 
-(defn register [{:keys [username password email] :as user}]
+(defn register [{:strs [username password email] :as user}]
   (responses
    (cond (db/user-exists? username) :user-exists
          (not (validate-all user)) :invalid-characters
@@ -21,9 +21,8 @@
                    (db/add-user! user)
                    :registration-success))))
 
-(defn login [{:keys [username password]}]
-  (responses
-   (cond (not (db/validated? username)) :unvalidated
-         (not (db/user-exists? username)) :user-not-found
-         (not= password (:password (db/fetch-user username))) :incorrect-password
-         :else :login-success)))
+(defn login [{:strs [username password]}]
+  (cond (not (db/user-exists? username)) :user-not-found
+        (not (db/validated? username)) :unvalidated
+        (not= password (:password (db/fetch-user username))) :incorrect-password
+        :else :login-success))
