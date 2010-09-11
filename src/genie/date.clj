@@ -4,13 +4,13 @@
         [clojure.set :only [map-invert]]
         [clojure.contrib.def]))
 
+(defalias date now)
+
 (def months (zipmap (iterate inc 1)
                     ["January" "February" "March"
                      "April" "May" "June"
                      "July" "August" "September"
                      "October" "November" "December"]))
-
-(defalias date now)
 
 (defn date-to-string
   ([] (date-to-string (now)))

@@ -1,23 +1,23 @@
 (ns genie.pages
-  (:use [hiccup [core :only [html]] [page-helpers :only [doctype link-to]]]))
+  (:use [hiccup.core :only [html]]
+        [hiccup.page-helpers :only [doctype link-to include-css include-js]]))
+
+(def links {:base {"/" "Home", "/users" "Users", "/tags" "Tags", "/search" "Search"}
+            :out {"/register" "Register", "/login" "Log in"}
+            :in {"/settings" "Settings", "/logout" "Log out"}})
 
 (defn render-links [{:keys [in-as]}]
   (map (fn [[link name]] (link-to link name))
-       (merge {"/" "Home"
-               "/users" "Users"
-               "/tags" "Tags"
-               "/search" "Search"}
-              (if in-as
-                {"/settings" "Settings"
-                 "/logout" "Log out"}
-                {"/register" "Register"
-                 "/login" "Log in"}))))
+       (apply merge (map links [(if in-as :in :out) :base]))))
 
 (defn redirect [url]
   (html [:meta {:http-equiv "Refresh" :content (str "0;url=" url)}]))
 
 (defmacro make-page [title & body]
-  `(html (:html4 doctype) [:head [:title ~title]]
+  `(html (:html4 doctype)
+         [:head [:title ~title]
+          (include-css "/css/genie.css")
+          (include-js "/javascript/genie.js")]
          (render-links ~'session) ~@body))
 
 (defmacro defpage [name & args]

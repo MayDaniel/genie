@@ -1,5 +1,5 @@
 (ns genie.core
-  (:use [genie [pages :only [defpage redirect]]]
+  (:use [genie.pages :only [defpage redirect]]
         [net.cgrand.moustache :only [app]]
         [ring.middleware params file session stacktrace]))
 

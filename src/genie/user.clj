@@ -1,7 +1,7 @@
 (ns genie.user
-  (:require [genie [db :as db]])
-  (:use [constants :only [responses]]
-        [mail :only [send-validation]]))
+  (:require [genie.db :as db])
+  (:use [genie.mail :only [send-validation]]
+        [genie.constants :only [responses]]))
 
 (defn validate-all [{:keys [username password email update]}]
   (let [regexp {:user #"^[a-zA-Z0-9_]{3,12}$"
