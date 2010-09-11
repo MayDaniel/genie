@@ -3,14 +3,6 @@
 
 (db/mongo! :db "Genie")
 
-(defn date-to-string
-  ([] (let [now (now)
-            date (join " " ((juxt day month year) now))
-            time (join ":" ((juxt hour minute sec) now))]
-        (str date " " time))))
-
-(defn string-to-date [date])
-
 (defn fetch-user [username]
   (db/fetch-one :users :where {:username username}))
 

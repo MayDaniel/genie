@@ -13,4 +13,4 @@
         title (str username "'s Genie updates.")]
     (feed title (str "http://localhost:8080/users/" username) title
           (for [{:keys [time status]} updates]
-            [:item [:title time] [:url url] [:description status]]))))
+            [:item [:title time] [:description status]]))))
