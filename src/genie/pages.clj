@@ -3,7 +3,7 @@
         [hiccup.core :only [html]]
         [hiccup.page-helpers :only [doctype link-to include-css include-js]]))
 
-(def links {:base {"/" "Home", "/users" "Users", "/tags" "Tags", "/search" "Search"}
+(def links {:base {"/search" "Search", "/tags" "Tags", "/users" "Users", "/" "Home"}
             :out {"/register" "Register", "/login" "Log in"}
             :in {"/settings" "Settings", "/logout" "Log out"}})
 

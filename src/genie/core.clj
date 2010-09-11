@@ -60,7 +60,7 @@
 
 (defn not-found-handler [{session :session}]
   {:status 200
-   :session session
+   :session (dissoc session :response)
    :headers {"Content-Type" "text/html"}
    :body (not-found session)})
 

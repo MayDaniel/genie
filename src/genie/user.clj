@@ -17,9 +17,9 @@
 (defn register [{:strs [username password email] :as user}]
   (cond (db/user-exists? username) :user-exists
         (not (validate-all user)) :invalid-characters
-        :else (do (future (send-validation email))
-                  (db/add-validation! username)
+        :else (do (future (send-validation email))                  
                   (db/add-user! user)
+                  (db/add-validation! username)
                   :registration-success)))
 
 (defn login [{:strs [username password]}]
