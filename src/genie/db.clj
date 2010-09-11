@@ -15,9 +15,7 @@
                       :password password
                       :email email
                       :validated? false
-                      :joined (date)
-                      :messages []
-                      :updates []}))
+                      :joined (date)}))
 
 (defn update-user! [username f & args]
   (let [user (fetch-user username)]

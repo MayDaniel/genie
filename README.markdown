@@ -1,6 +1,6 @@
-# genie
+# Genie
 
-FIXME: write description
+Initially planned to be a complete refactor and redesign of MayDaniel/clj-microblog, it's now going to be my blog.
 
 ## Usage
 

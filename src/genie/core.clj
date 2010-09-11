@@ -30,16 +30,15 @@
 
 (defn render-links [{:keys [in-as]}]
   (map (fn [[link name]] (link-to link name))
-       (merge {"/" "Home"
-               "/users" "Users"
-               "/tags" "Tags"
-               "/search" "Search"}
-              (if-let [message-count (count (:messages (db/fetch-user in-as)))]
-                {"/messages" (str "Messages" "(" message-count ")")
-                 (str "/users/" in-as "/edit") "Settings"
-                 "/logout" "Log out"}
-                {"/login" "Log in"
-                 "/register" "Register"}))))
+       (concat ["/" "Home"
+                "/users" "Users"
+                "/tags" "Tags"
+                "/search" "Search"]
+               (if in-as
+                 ["/settings" "Settings"
+                  "/logout" "Log out"]
+                 ["/register" "Register"
+                  "/login" "Log in"]))))
 
 (defmacro make-page [title & body]
   `(html (:html4 doctype) [:head [:title ~title]]
