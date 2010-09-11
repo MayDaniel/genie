@@ -31,14 +31,12 @@
            (submit-button "Register")))
 
 (defn register-handler [{session :session params :params}]
-  (println params)
   (let [{:strs [username]} params
         response (user/register params)
         success? #(= :registration-success response)
         session (cond (not username) session
                       (success?) (assoc session :response response)
                       :else (assoc session :response response))]
-    (println (success?))
     {:status 200
      :session session
      :headers {"Content-Type" "text/html"}
