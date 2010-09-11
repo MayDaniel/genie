@@ -47,10 +47,13 @@
 
 (defmacro defpage [name & args]
   {:arglists '([name title? argseq? & body])}
-  (let [first (fn [] (first args))
-        title (if (string? (first)) (first) (str name))
-        body (if (string? (first)) (rest args) args)
-        argseq (if (vector? (first)) (first) [])
-        body (if (seq argseq) (rest args) args)]
+  (let [title (if (string? (first args)) (first args) (str name))
+        body (if (string? (first args)) (rest args) args)
+        argseq (if (vector? (first body)) (first body) [])
+        body (if (seq argseq) (rest body) body)]
     `(defn ~name [~'session ~@argseq]
        (make-page ~title ~@body))))
+
+(comment
+  (defpage invalid-url "Invalid URL"
+    [:img {:src "/images/page-not-found.png"}]))
