@@ -10,7 +10,7 @@
 (defn user-exists? [username]
   (boolean (fetch-user username)))
 
-(defn add-user! [{:keys [username password email]}]
+(defn add-user! [{:strs [username password email]}]
   (db/insert! :users {:username username
                       :password password
                       :email email
@@ -25,8 +25,8 @@
   (db/destroy! :users {:username username}))
 
 (defn add-validation! [username]
-  (let [id (rand-int 1e6)]
-    (update-user! username :validation-id id) id))
+  (let [id (str (rand-int 1e6))]
+    (update-user! username assoc :validation-id id) id))
 
 (defn validated? [username]
   (:validated? (fetch-user username)))

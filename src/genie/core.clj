@@ -48,6 +48,13 @@
    :headers {"Content-Type" "text/html"}
    :body (redirect "/")})
 
+(defn confirmation-handler [{uri :uri session :session}]
+  (let [response (user/validate uri)]
+    {:status 200
+     :session (assoc session :response response)
+     :headers {"Content-Type" "text/html"}
+     :body (redirect "/")}))
+
 (defpage not-found "Invalid URL"
   [:img {:src "/images/not-found.png"}])
 
@@ -63,5 +70,6 @@
                  (wrap-stacktrace)
                  ["register"] register-handler
                  ["login"] login-handler
+                 ["confirm" username id] confirmation-handler
                  ["logout"] logout-handler
                  [&] not-found-handler))

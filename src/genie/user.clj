@@ -1,6 +1,7 @@
 (ns genie.user
   (:require [genie.db :as db])
-  (:use [genie.mail :only [send-validation]]
+  (:use [clojure.string :only [split]]
+        [genie.mail :only [send-validation]]
         [genie.constants :only [responses]]))
 
 (defn validate-all [{:keys [username password email update]}]
@@ -17,6 +18,7 @@
   (cond (db/user-exists? username) :user-exists
         (not (validate-all user)) :invalid-characters
         :else (do (future (send-validation email))
+                  (db/add-validation! username)
                   (db/add-user! user)
                   :registration-success)))
 
@@ -25,3 +27,13 @@
         (not (db/validated? username)) :unvalidated
         (not= password (:password (db/fetch-user username))) :incorrect-password
         :else :login-success))
+
+(defn validate [uri]
+  (let [[username id] (nnext (split uri #"/"))]
+    (cond (not (db/user-exists? username))
+          :user-not-found
+          (db/validated? username)
+          :already-validated
+          (not= (:validation-id (db/fetch-user username)) id)
+          :incorrect-validation-id
+          :else :validation-successful)))

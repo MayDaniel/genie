@@ -14,4 +14,10 @@
       :incorrect-password
       "You entered an incorrect password. Remember that your password is case-sensitive."
       :login-success
-      "You've successfully logged in!"})
+      "You've successfully logged in!"
+      :already-validated
+      "You've already validated this account."
+      :incorrect-validation-id
+      "Incorrect validation id."
+      :validation-successful
+      "You've successfully validated your account!"})
