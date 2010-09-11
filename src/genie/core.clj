@@ -15,13 +15,13 @@
   (let [{:strs [username]} params
         response (user/login params)
         success? #(= :login-success response)
-        session (cond (not username) session
+        session (cond (not username) session ; Check whether they'd actually posted some log in data.
                       (success?) (assoc session :in-as username :response response)
-                      :else (assoc session :response response))]
+                      :else (assoc session :response response))] ; Log in failed
     {:status 200
      :session session
      :headers {"Content-Type" "text/html"}
-     :body (if (:in-as session) (redirect "/") (login session))}))
+     :body (if (or (success?) (:in-as session)) (redirect "/") (login session))}))
 
 (defpage register "Register"
   (form-to [:post "/register"]
