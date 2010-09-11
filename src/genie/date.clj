@@ -1,13 +1,16 @@
 (ns genie.date
   (:use [clojure.string :only [join split]]
         [clj-time.core :only [now day month year hour minute sec date-time]]
-        [clojure.set :only [map-invert]]))
+        [clojure.set :only [map-invert]]
+        [clojure.contrib.def]))
 
 (def months (zipmap (iterate inc 1)
                     ["January" "February" "March"
                      "April" "May" "June"
                      "July" "August" "September"
                      "October" "November" "December"]))
+
+(defalias now date)
 
 (defn date-to-string
   ([] (date-to-string (now)))

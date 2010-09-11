@@ -1,5 +1,6 @@
 (ns genie.db
-  (:require [somnium.congomongo :as db]))
+  (:require [somnium.congomongo :as db])
+  (:use [genie.date :only [date]]))
 
 (db/mongo! :db "Genie")
 
@@ -14,7 +15,7 @@
                       :password password
                       :email email
                       :validated? false
-                      :joined 
+                      :joined (date)
                       :messages []
                       :updates []}))
 
@@ -33,6 +34,6 @@
   (:validated? (fetch-user username)))
 
 (defn validate! [username]
-  (letfn [(update! [f & args] (apply update-user! username f args))]
+  (let [update! (partial update-user! username)]
     (update! assoc :validated? true)
     (update! dissoc :validation-id)))
