@@ -1,6 +1,6 @@
 (ns genie.core
   (:use [genie [constants :only [responses]] [mail :only [send-validation]]]
-        [hiccup [core :only [html]] [page-helpers :only [link-to]]])
+        [hiccup [core :only [html]] [page-helpers :only [link-to doctype]]])
   (:require [genie [db :as db]]))
 
 (defn validate-all [{:keys [username password email update]}]
@@ -40,3 +40,14 @@
                  "/logout" "Log out"}
                 {"/login" "Log in"
                  "/register" "Register"}))))
+
+(defmacro make-page [title & body]
+  `(html (:html4 doctype) [:head [:title ~title]]
+         (render-links ~'session) ~@body))
+
+(defmacro defpage [name & args]
+  {:arglists '([name argseq? & body])}
+  (let [argseq (if (vector? (second args)) (second args) [])
+        body (if argseq (rest args) args)]
+    `(defn ~name [~'session ~@argseq]
+       (make-page (str ~name) ~@body))))

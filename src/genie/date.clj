@@ -10,7 +10,7 @@
                      "July" "August" "September"
                      "October" "November" "December"]))
 
-(defalias now date)
+(defalias date now)
 
 (defn date-to-string
   ([] (date-to-string (now)))
