@@ -48,6 +48,16 @@
 (defmacro defpage [name & args]
   {:arglists '([name argseq? & body])}
   (let [argseq (if (vector? (first args)) (first args) [])
-        body (if argseq (rest args) args)]
+        body (if (seq argseq) (rest args) args)]
     `(defn ~name ~(apply vector 'session argseq)
        (make-page (str ~name) ~@body))))
+
+(defmacro defpage [name & args]
+  {:arglists '([name title argseq? & body])}
+  (let [first (fn [] (first args))
+        title (if (string? (first)) (first) (str name))
+        body (if (string? (first)) (rest args) args)
+        argseq (if (vector? (first)) (first) [])
+        body (if (seq argseq) (rest args) args)]
+    `(defn ~name [~'session ~@argseq]
+       (make-page ~title ~@body))))
