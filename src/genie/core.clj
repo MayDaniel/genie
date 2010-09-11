@@ -12,16 +12,37 @@
            (submit-button "Log in")))
 
 (defn login-handler [{session :session params :params}]
-  (let [{:strs [username password]} params
+  (let [{:strs [username]} params
         response (user/login params)
         success? #(= :login-success response)
-        session (cond (not (and username password)) session
+        session (cond (not username) session
                       (success?) (assoc session :in-as username :response response)
                       :else (assoc session :response response))]
     {:status 200
      :session session
      :headers {"Content-Type" "text/html"}
      :body (if (:in-as session) (redirect "/") (login session))}))
+
+(defpage register "Register"
+  (form-to [:post "/register"]
+           (text-field "username" "Username")
+           (password-field "password" "Password")
+           (text-field "email" "Email")
+           (submit-button "Register")))
+
+(defn register-handler [{session :session params :params}]
+  (println params)
+  (let [{:strs [username]} params
+        response (user/register params)
+        success? #(= :registration-success response)
+        session (cond (not username) session
+                      (success?) (assoc session :response response)
+                      :else (assoc session :response response))]
+    (println (success?))
+    {:status 200
+     :session session
+     :headers {"Content-Type" "text/html"}
+     :body (if (success?) (redirect "/") (register session))}))
 
 (defn logout-handler [{session :session}]
   {:status 200
@@ -42,6 +63,7 @@
                  (wrap-file "resources/public")
                  (wrap-params)
                  (wrap-stacktrace)
+                 ["register"] register-handler
                  ["login"] login-handler
                  ["logout"] logout-handler
                  [&] not-found-handler))

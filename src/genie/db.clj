@@ -1,6 +1,6 @@
 (ns genie.db
   (:require [somnium.congomongo :as db])
-  (:use [genie.date :only [date]]))
+  (:use [genie.date :only [date-to-string]]))
 
 (db/mongo! :db "Genie")
 
@@ -15,7 +15,7 @@
                       :password password
                       :email email
                       :validated? false
-                      :joined (date)}))
+                      :joined (date-to-string)}))
 
 (defn update-user! [username f & args]
   (let [user (fetch-user username)]

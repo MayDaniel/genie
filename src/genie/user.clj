@@ -14,12 +14,11 @@
            (every? identity)))))
 
 (defn register [{:strs [username password email] :as user}]
-  (responses
-   (cond (db/user-exists? username) :user-exists
-         (not (validate-all user)) :invalid-characters
-         :else (do (future (send-validation email))
-                   (db/add-user! user)
-                   :registration-success))))
+  (cond (db/user-exists? username) :user-exists
+        (not (validate-all user)) :invalid-characters
+        :else (do (future (send-validation email))
+                  (db/add-user! user)
+                  :registration-success)))
 
 (defn login [{:strs [username password]}]
   (cond (not (db/user-exists? username)) :user-not-found
