@@ -5,7 +5,7 @@
         [genie.constants :only [responses]]
         [genie.util :only [<-]]))
 
-(defn validate-all [{:strs [username password email update]}]
+(defn validate-form [{:strs [username password email update]}]
   (every? (fn [[re coll]] (every? #(re-find re %) (<- coll)))
           {#"^[a-zA-Z0-9_]{3,12}$" [username password]
            #"^[^@]{1,64}@[^@]{1,255}$" [email]
@@ -13,7 +13,7 @@
 
 (defn register [{:strs [username password email] :as user}]
   (cond (db/user-exists? username) :user-exists
-        (not (validate-all user)) :invalid-characters
+        (not (validate-form user)) :invalid-characters
         :else (do (future (send-validation email))                  
                   (db/add-user! user)
                   (db/add-validation! username)
