@@ -16,9 +16,9 @@
   "Returns a string of a date in the format \"11 September 2010 18:41:32\"
    If no date is supplied, it defaults to now."
   ([] (date-to-string (now)))
-  ([date] (let [date- (join " " ((juxt day #(months (month %)) year) date))
-                time- (join ":" ((juxt hour minute sec) date))]
-            (str date- " " time-))))
+  ([date] (let [time (join ":" ((juxt hour minute sec) date))
+                date (join " " ((juxt day (fn [date] (months (month date))) year) date))]
+            (str date " " time))))
 
 (defn string-to-date
   "Returns an org.joda.time.DateTime from a date that's been
@@ -26,4 +26,5 @@
   [date]
   (let [[day month year hour minute second] (split date #":| ")
         month (str ((map-invert months) month))]
-    (apply date-time (map read-string [year month day hour minute second]))))
+    (apply date-time (map (fn [s] (Integer/parseInt s))
+                          [year month day hour minute second]))))

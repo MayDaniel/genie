@@ -25,9 +25,9 @@
                        "/css/jquery-ui.css")
           (include-js "/javascript/genie.js"
                       "/javascript/jquery.js"
-                      "/javascript/jquery-ui.js")
-          (render-links ~'session)
-          (check-response ~'session)] ~@body))
+                      "/javascript/jquery-ui.js")]
+         (render-links ~'session)
+         (check-response ~'session) ~@body))
 
 (defmacro defpage [name & args]
   {:arglists '([name title? argseq? & body])}

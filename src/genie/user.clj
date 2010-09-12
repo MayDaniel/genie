@@ -4,15 +4,11 @@
         [genie.mail :only [send-validation]]
         [genie.constants :only [responses]]))
 
-(defn validate-all [{:keys [username password email update]}]
-  (let [regexp {:user #"^[a-zA-Z0-9_]{3,12}$"
-                :email #"^[^@]{1,64}@[^@]{1,255}$"
-                :update #"^.{3,90}$"}]
-    (letfn [(re-check [[key coll]] (map #(if % (re-find (regexp key) %) true) coll))]
-      (->> {:user [username password] :email [email] :update [update]}
-           (map re-check)
-           (flatten)
-           (every? identity)))))
+(defn validate-all [{:strs [username password email update]}]
+  (every? (fn [[re coll]] (every? (fn [s] (if s (re-find re s) true)) coll))
+          {#"^[a-zA-Z0-9_]{3,12}$" [username password]
+           #"^[^@]{1,64}@[^@]{1,255}$" [email]
+           #"^.{3,90}$" [update]}))
 
 (defn register [{:strs [username password email] :as user}]
   (cond (db/user-exists? username) :user-exists
