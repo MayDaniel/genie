@@ -2,9 +2,8 @@
   (:require [genie.db :as db])
   (:use [clojure.string :only [split]]
         [genie.mail :only [send-validation]]
-        [genie.constants :only [responses]]))
-
-(defn <- [coll] (filter identity coll))
+        [genie.constants :only [responses]]
+        [genie.util :only [<-]]))
 
 (defn validate-all [{:strs [username password email update]}]
   (every? (fn [[re coll]] (every? #(re-find re %) (<- coll)))
