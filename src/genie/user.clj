@@ -4,8 +4,10 @@
         [genie.mail :only [send-validation]]
         [genie.constants :only [responses]]))
 
+(defn <- [coll] (filter identity coll))
+
 (defn validate-all [{:strs [username password email update]}]
-  (every? (fn [[re coll]] (every? (fn [s] (if s (re-find re s) true)) coll))
+  (every? (fn [[re coll]] (every? #(re-find re %) (<- coll)))
           {#"^[a-zA-Z0-9_]{3,12}$" [username password]
            #"^[^@]{1,64}@[^@]{1,255}$" [email]
            #"^.{3,90}$" [update]}))
