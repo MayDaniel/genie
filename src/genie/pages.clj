@@ -27,7 +27,8 @@
                       "/javascript/jquery.js"
                       "/javascript/jquery-ui.js")]
          (render-links ~'session)
-         (check-response ~'session) ~@body))
+         (check-response ~'session)
+         [:body ~@body]))
 
 (defmacro defpage [name & args]
   {:arglists '([name title? argseq? & body])}

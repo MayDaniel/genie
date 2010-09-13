@@ -1,6 +1,6 @@
 (ns genie.db
   (:require [somnium.congomongo :as db])
-  (:use [genie.date :only [date-to-string]]))
+  (:use [genie.date :only [date->string]]))
 
 (db/mongo! :db "Genie")
 
