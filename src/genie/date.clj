@@ -20,8 +20,7 @@
                   (join \: (time jdate))))))
 
 (defn string->date [date]
-  (let [[day month year hour minute sec] (split date #":| ")
-        month (str ((map-invert months) month))]
-    (->> [year month day hour minute sec]
-         (map read-string)
-         (apply date-time))))
+  (let [[day month year hour minute sec]
+        (map read-string (split date #":| "))
+        month ((map-invert months) (str month))]
+    (date-time year month day hour minute sec)))
