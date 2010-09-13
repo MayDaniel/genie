@@ -11,7 +11,7 @@
            (password-field "password" "Password")
            (submit-button "Log in")))
 
-(defn login-handler [{session :session params :params}]
+(defn login-handler [{:keys [session params]}]
   (let [{:strs [username]} params
         response (user/login params)
         success? #(= :login-success response)
@@ -30,7 +30,7 @@
            (text-field "email" "Email")
            (submit-button "Register")))
 
-(defn register-handler [{session :session params :params}]
+(defn register-handler [{:keys [session params]}]
   (let [{:strs [username]} params
         response (user/register params)
         success? #(= :registration-success response)
@@ -42,13 +42,13 @@
      :headers {"Content-Type" "text/html"}
      :body (if (success?) (redirect "/") (register session))}))
 
-(defn logout-handler [{session :session}]
+(defn logout-handler [{:keys [session]}]
   {:status 200
    :session {}
    :headers {"Content-Type" "text/html"}
    :body (redirect "/")})
 
-(defn confirmation-handler [{uri :uri session :session}]
+(defn confirmation-handler [{:keys [session uri]}]
   (let [response (user/validate uri)]
     {:status 200
      :session (assoc session :response response)
@@ -56,9 +56,9 @@
      :body (redirect "/")}))
 
 (defpage not-found "Invalid URL"
-  #_[:img {:src "/images/not-found.png"}] "Page not found.")
+  "Page not found.")
 
-(defn not-found-handler [{session :session}]
+(defn not-found-handler [{:keys [session]}]
   {:status 200
    :session (dissoc session :response)
    :headers {"Content-Type" "text/html"}
