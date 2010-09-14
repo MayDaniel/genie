@@ -42,7 +42,7 @@
      :headers {"Content-Type" "text/html"}
      :body (if (success?) (redirect "/") (register session))}))
 
-(defn logout-handler [{:keys [session]}]
+(defn logout-handler []
   {:status 200
    :session {}
    :headers {"Content-Type" "text/html"}
