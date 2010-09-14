@@ -1,11 +1,10 @@
 (ns genie.mail
   (:use [clj-mail.core :only [send-msg]]
-        [clj-store.core :only [in]]
         [clojure.set :only [rename-keys]]
         [genie.db :only [add-validation!]]))
 
 (defn mail-credentials []
-  (rename-keys (in "mail.configuration")
+  (rename-keys (load-file "configuration.clj")
                {:username :user, :password :pass, :ssl? :ssl}))
 
 (defn send-message [email subject body]

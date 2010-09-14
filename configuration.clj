@@ -1,3 +1,5 @@
+;; Credentials for the account of the sender of validation emails.
+
 {:username "foo@bar.baz"
  :password "example"
  :ssl? true

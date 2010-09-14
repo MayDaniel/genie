@@ -6,6 +6,5 @@
                  [hiccup "0.3.0"]
                  [net.cgrand/moustache "1.0.0-SNAPSHOT"]
                  [ring/ring-jetty-adapter "0.2.5"]
-                 [clj-time "0.1.0-RC1"]
-                 [clj-store "0.3.0"]]
+                 [clj-time "0.1.0-RC1"]]
   :dev-dependencies [[ring/ring-devel "0.2.5"]])
