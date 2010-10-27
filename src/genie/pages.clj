@@ -3,20 +3,19 @@
         [hiccup.core :only [html]]
         [hiccup.page-helpers :only [doctype link-to include-css include-js]]))
 
-(def links {:base {"/search" "Search", "/tags" "Tags", "/users" "Users", "/" "Home"}
-            :out {"/register" "Register", "/login" "Log in"}
-            :in {"/settings" "Settings", "/logout" "Log out"}})
-
 (defn render-links [{:keys [in-as]}]
-  (map (fn [[link name]] (link-to link name))
-       (apply merge (map links [(if in-as :in :out) :base]))))
+  (interpose " | " (map (fn [[link name]] (link-to link name))
+    (merge (if in-as {"/settings" "Settings" "/logout" "Log out"}
+                     {"/login" "Log in" "/register" "Register"})
+           {"/search" "Search", "/tags" "Tags", "/users" "Users", "/" [:b "Genie"]}))))
 
 (defn redirect [url]
   (html [:meta {:http-equiv "Refresh" :content (str "0;url=" url)}]))
 
 (defn check-response [session]
   (when-let [response (:response session)]
-    [:response (responses response)]))
+    [:div#dialog {:title "Response"}
+     [:p (responses response)]]))
 
 (defmacro make-page [title & body]
   `(html (:html4 doctype)
@@ -26,8 +25,7 @@
           (include-js "/javascript/genie.js"
                       "/javascript/jquery.js"
                       "/javascript/jquery-ui.js")]
-         (render-links ~'session)
-         (check-response ~'session)
+         [:header (render-links ~'session) (check-response ~'session)]
          [:body ~@body]))
 
 (defmacro defpage [name & args]
