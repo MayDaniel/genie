@@ -14,9 +14,9 @@
 
 (defn date->string
   ([] (date->string (date)))
-  ([date] (str (join " " ((juxt day (comp months month) year) date))
-               \space
-               (join ":" ((juxt hour minute sec) date)))))
+  ([date] (format "%s  %s"
+            (join " " ((juxt day (comp months month) year) date))
+            (join ":" ((juxt hour minute sec)              date)))))
 
 (defn string->date [date]
   (let [[day month year hour minute sec]
