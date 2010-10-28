@@ -1,0 +1,1 @@
+java -cp lib/*:lib/dev/*:src/ clojure.main -e "(use 'run)"
