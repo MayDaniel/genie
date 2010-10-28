@@ -1,0 +1,1 @@
+$(function() {	$( '#dialog' ).dialog(); });

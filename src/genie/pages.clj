@@ -24,11 +24,8 @@
 (defmacro make-page [title & body]
   `(html (:html4 doctype)
          [:head [:title ~title]
-          (include-css "/css/genie.css"
-                       "/css/jquery-ui.css")
-          (include-js  "/javascript/genie.js"
-                       "/javascript/jquery.js"
-                       "/javascript/jquery-ui.js")]
+          (include-css "/css/genie.css")
+          (include-js  "/javascript/genie.js")]
          (render-links ~'session)
          (check-response ~'session)
          [:body ~@body]))

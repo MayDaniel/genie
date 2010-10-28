@@ -1,5 +1,5 @@
 html { width:85%; margin-left:auto; margin-right:auto; }
 
-header { background-color:#ff6600; display:block; }
+header { background-color:#ff6600; display:block; padding:0.3%; }
 
 header a { text-decoration:none; color:black; }
