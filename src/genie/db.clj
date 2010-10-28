@@ -2,7 +2,7 @@
   (:require [somnium.congomongo :as db])
   (:use [genie.date :only [date->string]]))
 
-(db/mongo! :db "Genie")
+(db/mongo! :db "Genie" :port 4006)
 
 (defn fetch-user [username]
   (db/fetch-one :users :where {:username username}))

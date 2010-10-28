@@ -12,20 +12,21 @@
 (defn redirect [url]
   (html [:meta {:http-equiv "Refresh" :content (str "0;url=" url)}]))
 
-(defn check-response [session]
-  (when-let [response (:response session)]
+(defn check-response [{:keys [response]}]
+  (when-let [response (responses response)]
     [:div#dialog {:title "Response"}
-     [:p (responses response)]]))
+     [:p response]]))
 
 (defmacro make-page [title & body]
   `(html (:html4 doctype)
          [:head [:title ~title]
           (include-css "/css/genie.css"
                        "/css/jquery-ui.css")
-          (include-js "/javascript/genie.js"
-                      "/javascript/jquery.js"
-                      "/javascript/jquery-ui.js")]
-         [:header (render-links ~'session) (check-response ~'session)]
+          (include-js  "/javascript/genie.js"
+                       "/javascript/jquery.js"
+                       "/javascript/jquery-ui.js")]
+         [:header (render-links ~'session)]
+         (check-response ~'session)
          [:body ~@body]))
 
 (defmacro defpage [name & args]

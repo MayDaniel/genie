@@ -18,8 +18,7 @@
         session (cond (not username) session ; Check whether they'd actually posted some log in data.
                       (success?) (assoc session :in-as username :response response)
                       :else (assoc session :response response))] ; Log in failed
-    {:status 200
-     :session session
+    {:session session
      :headers {"Content-Type" "text/html"}
      :body (if (or (success?) (:in-as session)) (redirect "/") (login session))}))
 
@@ -37,30 +36,25 @@
         session (cond (not username) session
                       (success?) (assoc session :response response)
                       :else (assoc session :response response))]
-    {:status 200
-     :session session
+    {:session session
      :headers {"Content-Type" "text/html"}
      :body (if (success?) (redirect "/") (register session))}))
 
 (defn logout-handler [{:keys []}]
-  {:status 200
-   :session {}
+  {:session {}
    :headers {"Content-Type" "text/html"}
    :body (redirect "/")})
 
 (defn confirmation-handler [{:keys [session uri]}]
-  (let [response (user/validate uri)]
-    {:status 200
-     :session (assoc session :response response)
-     :headers {"Content-Type" "text/html"}
-     :body (redirect "/")}))
+  {:session (assoc session :response (user/validate uri))
+   :headers {"Content-Type" "text/html"}
+   :body (redirect "/")})
 
 (defpage not-found "Invalid URL"
   "Page not found.")
 
 (defn not-found-handler [{:keys [session]}]
-  {:status 200
-   :session (dissoc session :response)
+  {:session (dissoc session :response)
    :headers {"Content-Type" "text/html"}
    :body (not-found session)})
 

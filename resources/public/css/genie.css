@@ -1,8 +1,8 @@
 html { margin-left:12%;
        margin-right:12%; }
 
-header {background-color:#ff6600;
-        padding:0.25%;}
+header { background-color:#ff6600;
+         display:block; }
 
-a {text-decoration:none;
-   color:black;}
+a { text-decoration:none;
+    color:black; }
