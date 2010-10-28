@@ -34,7 +34,7 @@
         :incorrect-validation-id
         :else :validation-successful))
 
-(defn user-information [username]
+(defn profile-table [username]
   (if (db/user-exists? username)
     (let [{:keys [username email joined]} (db/fetch-user username)]
       [:table (map (fn [[title value]] [:tr [:td title] [:td value]])

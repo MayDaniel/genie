@@ -42,7 +42,7 @@
      :body (if (success?) (redirect "/") (register session))}))
 
 (defpage profile "Profile" [username]
-  (user/user-information username))
+  (user/profile-table username))
 
 (defn profile-handler [{:keys [session]} username]
   {:session (dissoc session :response)
