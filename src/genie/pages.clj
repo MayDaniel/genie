@@ -3,11 +3,15 @@
         [hiccup.core :only [html]]
         [hiccup.page-helpers :only [doctype link-to include-css include-js]]))
 
+(defn links [logged-in?]
+  (merge (if logged-in?
+           {"/settings" "Settings" "/logout" "Log out"}
+           {"/login" "Log in" "/register" "Register"})
+           {"/search" "Search" "/tags" "Tags" "/users" "Users" "/" [:b "Genie"]}))
+
 (defn render-links [{:keys [in-as]}]
-  (interpose " | " (map (fn [[link name]] (link-to link name))
-    (merge (if in-as {"/settings" "Settings" "/logout" "Log out"}
-                     {"/login" "Log in" "/register" "Register"})
-           {"/search" "Search", "/tags" "Tags", "/users" "Users", "/" [:b "Genie"]}))))
+  [:tr (for [[link name] (interpose " | " (links in-as))]
+         [:td (link-to link name)])])
 
 (defn redirect [url]
   (html [:meta {:http-equiv "Refresh" :content (str "0;url=" url)}]))
@@ -25,9 +29,8 @@
           (include-js  "/javascript/genie.js"
                        "/javascript/jquery.js"
                        "/javascript/jquery-ui.js")]
-         [:header (render-links ~'session)]
          (check-response ~'session)
-         [:body ~@body]))
+         [:table (render-links ~'session) ~@body]))
 
 (defmacro defpage [name & args]
   {:arglists '([name title? argseq? & body])}
