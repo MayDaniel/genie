@@ -1,6 +1,7 @@
 (ns genie.core
   (:require [genie.user :as user])
   (:use [genie.pages :only [defpage redirect]]
+        [genie.db :only [user-exists?]]
         [net.cgrand.moustache :only [app]]
         [hiccup.form-helpers :only [form-to text-field password-field submit-button]]
         [ring.middleware params file session stacktrace]))
@@ -71,9 +72,9 @@
                  (wrap-params)
                  (wrap-stacktrace)
                  ;; % contains the map that's passed around (containing session, uri, etc.) 
-                 ["register"]            #(register-handler %) 
-                 ["login"]               #(login-handler %)
-                 ["profile" username]    #(profile-handler % username)
-                 ["confirm" username id] #(confirmation-handler % username id)
-                 ["logout"]              #(logout-handler %)
-                 [&]                     #(not-found-handler %)))
+                 ["register"]             #(register-handler %) 
+                 ["login"]                #(login-handler %)
+                 ["profile" username]     #(profile-handler % username)
+                 ["confirm" username id]  #(confirmation-handler % username id)
+                 ["logout"]               #(logout-handler %)
+                 [&]                      #(not-found-handler %)))

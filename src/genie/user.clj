@@ -35,8 +35,10 @@
         :else :validation-successful))
 
 (defn user-information [username]
-  (let [{:keys [username email joined]} (db/fetch-user username)]
-    (map (fn [[title value]] [:tr [:td title] [:td value]])
-         [["Username:" username]
-          ["Joined:"   joined]
-          ["Email:"    email]])))
+  (if (db/user-exists? username)
+    (let [{:keys [username email joined]} (db/fetch-user username)]
+      [:table (map (fn [[title value]] [:tr [:td title] [:td value]])
+                   [["Username:" username]
+                    ["Joined:"   joined]
+                    ["Email:"    email]])])
+    "No such user."))
