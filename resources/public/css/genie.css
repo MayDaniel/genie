@@ -1,5 +1,7 @@
-html { width:85%; margin-left:auto; margin-right:auto; }
-
-header { background-color:#ff6600; display:block; padding:0.3%; }
+header { background-color:#ff6600; display:block; }
 
 header a { text-decoration:none; color:black; }
+
+body { margin-left:auto; margin-right:auto; width:85%; }
+
+table { background-color:#F6F6EF; width:100%; }

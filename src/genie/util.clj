@@ -1,3 +1,3 @@
 (ns genie.util)
 
-(defn <- [coll] (filter identity coll))
+(defn id<- [coll] (filter identity coll))

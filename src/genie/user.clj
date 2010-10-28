@@ -3,10 +3,10 @@
   (:use [clojure.string  :only [split]]
         [genie.mail      :only [send-validation]]
         [genie.constants :only [responses]]
-        [genie.util      :only [<-]]))
+        [genie.util      :only [id<-]]))
 
 (defn validate-form [{:strs [username password email update]}]
-  (every? (fn [[re coll]] (every? #(re-find re %) (<- coll)))
+  (every? (fn [[re coll]] (every? #(re-find re %) (id<- coll)))
           {#"^[a-zA-Z0-9_]{3,12}$" [username password]
            #"^[^@]{1,64}@[^@]{1,255}$" [email]
            #"^.{3,90}$" [update]}))
