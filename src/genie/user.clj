@@ -25,12 +25,18 @@
         (not= password (:password (db/fetch-user username))) :incorrect-password
         :else :login-success))
 
-(defn validate [uri]
-  (let [[username id] (nnext (split uri #"/"))]
-    (cond (not (db/user-exists? username))
-          :user-not-found
-          (db/validated? username)
-          :already-validated
-          (not= (:validation-id (db/fetch-user username)) id)
-          :incorrect-validation-id
-          :else :validation-successful)))
+(defn validate [username id]  
+  (cond (not (db/user-exists? username))
+        :user-not-found
+        (db/validated? username)
+        :already-validated
+        (not= (:validation-id (db/fetch-user username)) id)
+        :incorrect-validation-id
+        :else :validation-successful))
+
+(defn user-information [username]
+  (let [{:keys [username email joined]} (db/fetch-user username)]
+    (map (fn [[title value]] [:tr [:td title] [:td value]])
+         [["Username:" username]
+          ["Joined:"   joined]
+          ["Email:"    email]])))

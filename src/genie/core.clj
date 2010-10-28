@@ -40,13 +40,21 @@
      :headers {"Content-Type" "text/html"}
      :body (if (success?) (redirect "/") (register session))}))
 
+(defpage profile "Profile" [username]
+  (user/user-information username))
+
+(defn profile-handler [{:keys [session]} username]
+  {:session (dissoc session :response)
+   :headers {"Content-Type" "text/html"}
+   :body (profile session username)})
+
 (defn logout-handler [{:keys []}]
   {:session {}
    :headers {"Content-Type" "text/html"}
    :body (redirect "/")})
 
-(defn confirmation-handler [{:keys [session uri]}]
-  {:session (assoc session :response (user/validate uri))
+(defn confirmation-handler [{:keys [session]} username id]
+  {:session (assoc session :response (user/validate username id))
    :headers {"Content-Type" "text/html"}
    :body (redirect "/")})
 
@@ -62,8 +70,10 @@
                  (wrap-file "resources/public")
                  (wrap-params)
                  (wrap-stacktrace)
-                 ["register"] register-handler
-                 ["login"] login-handler
-                 ["confirm" username id] confirmation-handler
-                 ["logout"] logout-handler
-                 [&] not-found-handler))
+                 ;; % contains the map that's passed around (containing session, uri, etc.) 
+                 ["register"]            #(register-handler %) 
+                 ["login"]               #(login-handler %)
+                 ["profile" username]    #(profile-handler % username)
+                 ["confirm" username id] #(confirmation-handler % username id)
+                 ["logout"]              #(logout-handler %)
+                 [&]                     #(not-found-handler %)))
