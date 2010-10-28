@@ -1,7 +1,7 @@
 (ns genie.date
-  (:use [clojure.string :only [join split]]
-        [clj-time.core :only [now day month year hour minute sec date-time]]
-        [clojure.set :only [map-invert]]
+  (:use [clojure.string      :only [join split]]
+        [clj-time.core       :only [now day month year hour minute sec date-time]]
+        [clojure.set         :only [map-invert]]
         [clojure.contrib.def :only [defalias]]))
 
 (defalias date now)

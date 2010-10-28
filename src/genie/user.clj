@@ -1,9 +1,9 @@
 (ns genie.user
-  (:require [genie.db :as db])
-  (:use [clojure.string :only [split]]
-        [genie.mail :only [send-validation]]
+  (:require [genie.db    :as db])
+  (:use [clojure.string  :only [split]]
+        [genie.mail      :only [send-validation]]
         [genie.constants :only [responses]]
-        [genie.util :only [<-]]))
+        [genie.util      :only [<-]]))
 
 (defn validate-form [{:strs [username password email update]}]
   (every? (fn [[re coll]] (every? #(re-find re %) (<- coll)))

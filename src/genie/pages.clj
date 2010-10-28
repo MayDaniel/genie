@@ -1,6 +1,6 @@
 (ns genie.pages
-  (:use [genie.constants :only [responses]]
-        [hiccup.core :only [html]]
+  (:use [genie.constants     :only [responses]]
+        [hiccup.core         :only [html]]
         [hiccup.page-helpers :only [doctype link-to include-css include-js]]))
 
 (defn links [in-as]
