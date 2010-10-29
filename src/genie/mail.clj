@@ -14,5 +14,5 @@
 (defn send-validation [username email]
   (send-message email "Genie - Confirm your account"
     (str "Validate your Genie account at: "
-         "http://localhost:8080/confirm/"
+         "http://localhost:4006/confirm/"
          username "/" (add-validation! username))))
